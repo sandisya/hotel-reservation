@@ -30,7 +30,7 @@
             <form action="{{ url('/user/reservasi') }}" method="POST" class="mb-8">
                 @csrf
                 <div class="mb-4">
-                    <label class="block font-semibold mb-1" for="kamar_id">Pilih Kamar</label>
+                    <label for="kamar_id" class="block font-semibold mb-1">Pilih Kamar</label>
                     <select name="kamar_id" id="kamar_id" class="w-full border border-gray-300 rounded px-3 py-2" required>
                         @foreach ($kamars as $kamar)
                         <option value="{{ $kamar->id }}" data-gambar="{{ asset('img/' . $kamar->gambar) }}">
@@ -38,18 +38,16 @@
                         </option>
                         @endforeach
                     </select>
-                    <div id="preview-gambar-kamar" class="mt-2">
-                        <!-- Gambar kamar akan muncul di sini -->
-                    </div>
+                    <div id="preview-gambar-kamar" class="mt-2"></div>
                 </div>
 
                 <div class="mb-4">
-                    <label class="block font-semibold mb-1" for="check_in">Tanggal Check-in</label>
+                    <label for="check_in" class="block font-semibold mb-1">Tanggal Check-in</label>
                     <input type="date" name="check_in" id="check_in" class="w-full border border-gray-300 rounded px-3 py-2" required>
                 </div>
 
                 <div class="mb-4">
-                    <label class="block font-semibold mb-1" for="check_out">Tanggal Check-out</label>
+                    <label for="check_out" class="block font-semibold mb-1">Tanggal Check-out</label>
                     <input type="date" name="check_out" id="check_out" class="w-full border border-gray-300 rounded px-3 py-2" required>
                 </div>
 
@@ -74,15 +72,18 @@
                             <th class="border px-4 py-2 text-left">Check-in</th>
                             <th class="border px-4 py-2 text-left">Check-out</th>
                             <th class="border px-4 py-2 text-left">Total Harga</th>
-                            <th class="border px-4 py-2 text-left">Status</th>
+                            <th class="border px-4 py-2 text-left">Status Pesanan</th>
+                            <th class="border px-4 py-2 text-left">Status Validasi</th>
+                            <th class="border px-4 py-2 text-left">Aksi</th> <!-- Tetap ada untuk tombol Bayar -->
                         </tr>
                     </thead>
+
                     <tbody>
                         @foreach ($reservasis as $r)
                         <tr class="odd:bg-white even:bg-gray-50">
                             <td class="border px-4 py-2 flex items-center space-x-2">
                                 @if ($r->kamar->gambar)
-                                    <img src="{{ asset('img/' . $r->kamar->gambar) }}" alt="Foto Kamar" class="w-16 h-12 object-cover rounded">
+                                    <img src="{{ asset('img/' . $r->kamar->gambar) }}" class="w-16 h-12 object-cover rounded" alt="Foto Kamar">
                                 @endif
                                 <span>{{ $r->kamar->nomor_kamar }} ({{ $r->kamar->tipe_kamar }})</span>
                             </td>
@@ -90,9 +91,31 @@
                             <td class="border px-4 py-2">{{ $r->check_out }}</td>
                             <td class="border px-4 py-2">Rp {{ number_format($r->total_harga) }}</td>
                             <td class="border px-4 py-2">{{ ucfirst($r->status) }}</td>
+                            <td class="border px-4 py-2">
+                                @if ($r->status_validasi == 'menunggu')
+                                    <span class="text-yellow-500 font-semibold">Menunggu</span>
+                                @elseif ($r->status_validasi == 'disetujui')
+                                    <span class="text-green-600 font-semibold">Disetujui</span>
+                                @elseif ($r->status_validasi == 'ditolak')
+                                    <span class="text-red-600 font-semibold">Ditolak</span>
+                                @endif
+                            </td>
+
+                            <!-- Tombol Bayar tetap ada -->
+                            <td class="border px-4 py-2">
+                                @if ($r->status_pembayaran !== 'settlement' && $r->status !== 'dibatalkan')
+                                    <a href="{{ route('user.bayar', $r->id) }}"
+                                        class="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                                        Bayar
+                                    </a>
+                                @else
+                                    <span class="text-green-600 font-semibold">Lunas</span>
+                                @endif
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
+
                 </table>
             </div>
         </div>
@@ -107,11 +130,9 @@
         const selectedOption = selectKamar.options[selectKamar.selectedIndex];
         const imgSrc = selectedOption.getAttribute('data-gambar');
 
-        if (imgSrc) {
-            previewDiv.innerHTML = `<img src="${imgSrc}" alt="Foto Kamar" class="w-48 h-32 object-cover rounded shadow">`;
-        } else {
-            previewDiv.innerHTML = '';
-        }
+        previewDiv.innerHTML = imgSrc
+            ? `<img src="${imgSrc}" alt="Foto Kamar" class="w-48 h-32 object-cover rounded shadow">`
+            : '';
     }
 
     selectKamar.addEventListener('change', updateImage);

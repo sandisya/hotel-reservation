@@ -14,6 +14,9 @@
             <li>
                 <a href="{{ route('admin.users') }}" class="block px-4 py-2 rounded hover:bg-gray-200">Daftar Pengguna</a>
             </li>
+            <li>
+                <a href="{{ route('admin.reservasi.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200">Validasi Reservasi</a>
+            </li>
         </ul>
     </aside>
 

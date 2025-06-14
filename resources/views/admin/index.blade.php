@@ -16,6 +16,7 @@
                class="block px-4 py-2 rounded hover:bg-blue-100 {{ request()->routeIs('admin.users') ? 'bg-blue-200 font-semibold' : '' }}">
                 Daftar Pengguna
             </a>
+                <a href="{{ route('admin.reservasi.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200">Validasi Reservasi</a>
         </nav>
     </aside>
 

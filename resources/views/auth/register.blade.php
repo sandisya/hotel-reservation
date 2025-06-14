@@ -1,56 +1,79 @@
-<script src="https://cdn.tailwindcss.com"></script>
-<x-guest-layout>
-    <div class="max-w-md mx-auto mt-12 bg-white p-8 rounded-2xl shadow-md dark:bg-gray-900">
-        <h2 class="text-2xl font-semibold text-center text-gray-800 dark:text-white mb-6">Buat Akun Baru</h2>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrasi - Aplikasi Reservasi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-purple-500 to-indigo-100 flex items-center justify-center px-4">
+    <div class="bg-white dark:bg-gray-700 w-full max-w-md p-8 rounded-3xl shadow-2xl">
+        <h2 class="text-3xl font-bold text-center text-gray-800 dark:text-white mb-6">
+            Daftar Akun Baru 📝
+        </h2>
+        <p class="text-center text-sm text-gray-500 dark:text-gray-400 mb-8">
+            Buat akun untuk memulai reservasi kamar
+        </p>
 
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ route('register') }}" class="space-y-5">
             @csrf
 
-            <!-- Name -->
-            <div class="mb-4">
-                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Nama</label>
-                <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name"
-                    class="w-full mt-1 px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
-                <x-input-error :messages="$errors->get('name')" class="mt-1 text-sm text-red-500" />
+            <!-- Nama -->
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Nama Lengkap</label>
+                <input id="name" name="name" type="text" value="{{ old('name') }}" required autofocus
+                    class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none" />
+                @error('name')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                @enderror
             </div>
 
-            <!-- Email Address -->
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Email</label>
-                <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username"
-                    class="w-full mt-1 px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
-                <x-input-error :messages="$errors->get('email')" class="mt-1 text-sm text-red-500" />
+            <!-- Email -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Email</label>
+                <input id="email" name="email" type="email" value="{{ old('email') }}" required
+                    class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none" />
+                @error('email')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Password -->
-            <div class="mb-4">
-                <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Password</label>
-                <input id="password" type="password" name="password" required autocomplete="new-password"
-                    class="w-full mt-1 px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
-                <x-input-error :messages="$errors->get('password')" class="mt-1 text-sm text-red-500" />
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Password</label>
+                <input id="password" name="password" type="password" required
+                    class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none" />
+                @error('password')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                @enderror
             </div>
 
-            <!-- Confirm Password -->
-            <div class="mb-4">
-                <label for="password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Konfirmasi Password</label>
-                <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password"
-                    class="w-full mt-1 px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-1 text-sm text-red-500" />
+            <!-- Konfirmasi Password -->
+            <div>
+                <label for="password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Konfirmasi Password</label>
+                <input id="password_confirmation" name="password_confirmation" type="password" required
+                    class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none" />
+                @error('password_confirmation')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                @enderror
             </div>
 
-            <!-- Submit Button -->
-            <div class="mt-6">
+            <!-- Tombol Daftar -->
+            <div>
                 <button type="submit"
-                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">
+                    class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-lg transition duration-200">
                     Daftar
                 </button>
             </div>
 
             <!-- Link ke Login -->
-            <div class="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+            <p class="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
                 Sudah punya akun?
-                <a href="{{ route('login') }}" class="text-indigo-600 hover:underline dark:text-indigo-400">Masuk di sini</a>
-            </div>
+                <a href="{{ route('login') }}" class="text-indigo-600 hover:underline dark:text-indigo-400">
+                    Masuk di sini
+                </a>
+            </p>
         </form>
     </div>
-</x-guest-layout>
+</body>
+</html>

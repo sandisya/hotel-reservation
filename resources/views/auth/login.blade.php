@@ -1,57 +1,78 @@
-<script src="https://cdn.tailwindcss.com"></script>
-<x-guest-layout>
-    <div class="max-w-md mx-auto mt-12 bg-white p-8 rounded-2xl shadow-md dark:bg-gray-900">
-        <h2 class="text-2xl font-semibold text-center text-gray-800 dark:text-white mb-6">Login ke Akun Anda</h2>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Aplikasi Reservasi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-500 to-purple-100 flex items-center justify-center px-4">
+    <div class="bg-white dark:bg-gray-700 w-full max-w-md p-8 rounded-3xl shadow-2xl">
+        <h2 class="text-3xl font-bold text-center text-gray-800 dark:text-white mb-6">
+            Selamat Datang 👋
+        </h2>
+        <p class="text-center text-sm text-gray-500 dark:text-gray-400 mb-8">
+            Masuk untuk melanjutkan ke dashboard
+        </p>
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+        @if (session('status'))
+            <div class="mb-4 text-sm text-green-600 dark:text-green-400">
+                {{ session('status') }}
+            </div>
+        @endif
 
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login') }}" class="space-y-5">
             @csrf
 
-            <!-- Email Address -->
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Email</label>
-                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username"
-                    class="w-full mt-1 px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
-                <x-input-error :messages="$errors->get('email')" class="mt-1 text-sm text-red-500" />
+            <!-- Email -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Email</label>
+                <input id="email" name="email" type="email" value="{{ old('email') }}" required autofocus
+                    class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none" />
+                @error('email')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Password -->
-            <div class="mb-4">
-                <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Password</label>
-                <input id="password" type="password" name="password" required autocomplete="current-password"
-                    class="w-full mt-1 px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
-                <x-input-error :messages="$errors->get('password')" class="mt-1 text-sm text-red-500" />
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Password</label>
+                <input id="password" name="password" type="password" required
+                    class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none" />
+                @error('password')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                @enderror
             </div>
 
-            <!-- Remember Me -->
-            <div class="flex items-center justify-between mb-4">
-                <label for="remember_me" class="flex items-center text-sm text-gray-700 dark:text-gray-300">
-                    <input id="remember_me" type="checkbox" name="remember"
-                        class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
-                    <span class="ml-2">Ingat Saya</span>
+            <!-- Remember me & forgot -->
+            <div class="flex items-center justify-between text-sm">
+                <label class="flex items-center text-gray-700 dark:text-gray-300">
+                    <input type="checkbox" name="remember" class="h-4 w-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
+                    <span class="ml-2">Ingat saya</span>
                 </label>
-
                 @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}"
-                        class="text-sm text-indigo-600 hover:underline dark:text-indigo-400">Lupa password?</a>
+                    <a href="{{ route('password.request') }}" class="text-indigo-600 hover:underline dark:text-indigo-400">
+                        Lupa Password?
+                    </a>
                 @endif
             </div>
 
-            <!-- Submit Button -->
+            <!-- Button -->
             <div>
                 <button type="submit"
-                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">
+                    class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-lg transition duration-200">
                     Masuk
                 </button>
             </div>
 
-            <!-- Register Link -->
-            <div class="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+            <!-- Register -->
+            <p class="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
                 Belum punya akun?
-                <a href="{{ route('register') }}" class="text-indigo-600 hover:underline dark:text-indigo-400">Daftar di sini</a>
-            </div>
+                <a href="{{ route('register') }}" class="text-indigo-600 hover:underline dark:text-indigo-400">
+                    Daftar sekarang
+                </a>
+            </p>
         </form>
     </div>
-</x-guest-layout>
+</body>
+</html>
