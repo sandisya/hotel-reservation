@@ -10,7 +10,6 @@ class MidtransController extends Controller
 {
     public function callback(Request $request)
     {
-        // Inisialisasi notifikasi dari Midtrans
         $notif = new Notification();
 
         $transaction = $notif->transaction_status;

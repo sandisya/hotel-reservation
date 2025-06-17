@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MidtransController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,9 +12,19 @@ use App\Http\Controllers\MidtransController;
 */
 
 // Halaman utama (landing page / promosi)
-Route::get('/', function () {
-    return view('landing'); // resources/views/landing.blade.php
+Route::get('/', function (Request $request) {
+    $orderId = $request->query('order_id');
+    $status = $request->query('transaction_status');
+
+    // Jika ada order_id dan status, tampilkan halaman konfirmasi
+    if ($orderId && $status) {
+        return view('landing_return', compact('orderId', 'status'));
+    }
+
+    // Kalau tidak, tampilkan landing page biasa
+    return view('landing');
 });
+
 
 // Callback Midtrans
 Route::post('/midtrans/callback', [MidtransController::class, 'callback']);
