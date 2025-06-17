@@ -6,7 +6,13 @@
     <title>Registrasi - Aplikasi Reservasi</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-purple-500 to-indigo-100 flex items-center justify-center px-4">
+<body class="min-h-screen bg-gradient-to-br from-purple-500 to-indigo-100 flex items-center justify-center px-4 relative">
+
+    <!-- Panah kembali -->
+    <a href="{{ url('/') }}" class="absolute top-6 left-6 text-gray-800 hover:text-gray-600 dark:text-white dark:hover:text-gray-300 text-2xl">
+        ←
+    </a>
+
     <div class="bg-white dark:bg-gray-700 w-full max-w-md p-8 rounded-3xl shadow-2xl">
         <h2 class="text-3xl font-bold text-center text-gray-800 dark:text-white mb-6">
             Daftar Akun Baru 📝
